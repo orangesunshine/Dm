@@ -1,0 +1,26 @@
+def versions = [:]
+versions.compileSdkVersion = 29
+versions.minSdkVersion = 16
+versions.targetSdkVersion = 29
+versions.versionCode = 1
+versions.versionName = "1.0"
+versions.buildToolsVersion = "30.0.2"
+versions.appId = "com.orange.DM"
+ext.versions = versions
+
+def plugins = [:]
+plugins.android_gradle_plugin = "com.android.tools.build:gradle:4.0.1"
+ext.plugins = plugins
+
+def deps = [:]
+def atest = [:]
+atest.junit = 'junit:junit:4.12'
+atest.xjunit = 'androidx.test.ext:junit:1.1.2'
+atest.espresso = 'androidx.test.espresso:espresso-core:3.3.0'
+deps.atest = atest
+
+def commonlibs = [:]
+commonlibs.appcompat = 'androidx.appcompat:appcompat:1.2.0'
+commonlibs.gson = 'com.google.code.gson:gson:2.8.0'
+deps.commonlibs = commonlibs
+ext.deps = deps

@@ -1,0 +1,21 @@
+import groovy.json.JsonSlurper
+
+def config = new JsonSlurper().parse(file("./config.json"))
+config.modules.each {
+    def key = it.key
+    def value = it.value
+    if (value && value.size > 0) {
+        value.each {
+            if (it.isApply) {
+                def path = key
+                if (it.path) path += it.path
+                def modulename = ":" + path.replace(":", "_")
+                def modulepath = path.replace(":", "/")
+                println "modulename: ${modulename}"
+                include modulename
+                project(modulename).projectDir = file(modulepath)
+            }
+        }
+
+    }
+}

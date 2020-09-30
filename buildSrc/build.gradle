@@ -1,0 +1,6 @@
+//  buildSrc/build.gradle
+apply plugin: 'groovy'
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+}

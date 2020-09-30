@@ -1,0 +1,22 @@
+class HelloExtension{
+    String msg
+}
+
+class HelloPlugin implements Plugin<Project>{
+
+    @Override
+    void apply(Project target) {
+        def hello = target.extensions.create("hello",HelloExtension)
+        target.task("hello"){
+            doLast {
+                println hello.msg
+            }
+        }
+    }
+}
+
+apply plugin: HelloPlugin
+
+hello{
+    msg = 'hello younger'
+}
