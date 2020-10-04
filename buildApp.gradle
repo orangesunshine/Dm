@@ -1,6 +1,7 @@
+ext.enKtx = 1
 apply {
     plugin "com.android.application"
-    from  "${rootDir.path}/buildCommon.gradle"
+    from "${rootDir.path}/buildCommon.gradle"
 }
 
 configSigning()
@@ -14,30 +15,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationIdSuffix ".debug"
-        }
-
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    packagingOptions {
-        exclude 'META-INF/*'
-    }
-
-    dexOptions {
-        preDexLibraries true
-        preDexLibraries true
-        javaMaxHeapSize "8g"
-        maxProcessCount 8
-        dexInProcess = true
-    }
+    buildFeatures.dataBinding = true
 }
 
 def configSigning() {

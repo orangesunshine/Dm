@@ -2,13 +2,13 @@
 gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
     @Override
     void beforeEvaluate(Project project) {
-        if(project.name.contains("plugin"))return
+        if (project.name.contains("plugin")) return
         if (project.name.endsWith("app")) {
             GLog.l(project.toString() + " applies buildApp.gradle")
             project.apply {
                 from "${project.rootDir.path}/buildApp.gradle"
             }
-        } else{
+        } else {
             GLog.l(project.toString() + " applies buildLib.gradle")
             project.apply {
                 from "${project.rootDir.path}/buildLib.gradle"
@@ -22,19 +22,19 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
     }
 })
 buildscript {
-    ext.kotlin_version = "1.4.10"
+    ext.enAndroidX = true
+    ext.enKtx = 2
+    apply from: "${rootDir.path}/config.gradle"
     repositories {
-        google()
-        jcenter()
-        maven{
-            url uri('./plugin/maven/orange')
-        }
+        addRepos(repositories)
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.orange.plugin:orangePlugin:1.0.0"
-
+        plugin.forEach{
+            if(it){
+                def path = it.replaceAll("plugin__", "")
+                classpath path
+            }
+        }
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

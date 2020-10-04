@@ -1,0 +1,4 @@
+apply from: "${rootDir.path}/config.gradle"
+dependencies {
+    addLibs(dependencies,jetpack.work)
+}

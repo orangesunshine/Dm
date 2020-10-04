@@ -16,6 +16,5 @@ config.modules.each {
                 project(modulename).projectDir = file(modulepath)
             }
         }
-
     }
 }

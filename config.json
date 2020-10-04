@@ -26,7 +26,7 @@
       },
       {
         "isApply": false,
-        "path": ":mvvm"
+        "path": ":mvvm_hilt_databinding_viewmodel_livedata_app"
       }
     ],
     "java": [
@@ -37,19 +37,32 @@
     ],
     "kotlin": [
       {
-        "isApply": true,
-        "path": ":databinding_app"
-      },{
         "isApply": false,
-        "path": ":model_app"
-      },
+        "path": ":databinding_app"
+      }
+    ],
+    "jetpack": [
       {
         "isApply": false,
-        "path": ":jetpack_app"
+        "path": ":model_app"
+      },{
+        "isApply": false,
+        "path": ":room_app"
+      },{
+        "isApply": false,
+        "path": ":coroutine_app"
       },
       {
         "isApply": false,
         "path": ":viewbinding_app"
+      },
+      {
+        "isApply": false,
+        "path": ":lifecycleowner_app"
+      },
+      {
+        "isApply": false,
+        "path": ":workmanager_app"
       }
     ]
   }

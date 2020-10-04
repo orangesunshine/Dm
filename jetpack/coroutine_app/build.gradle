@@ -1,0 +1,13 @@
+apply from: "${rootDir.path}/config.gradle"
+
+dependencies {
+    //addDeps(dependencies,deps.coroutines)
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2'
+}
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

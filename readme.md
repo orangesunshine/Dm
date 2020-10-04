@@ -41,8 +41,8 @@ class HelloPlugin implements com.orange.plugin.Plugin<Project>{
 //  buildSrc/build.gradle
 apply plugin: 'groovy'
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
+    implementation gradleApi()
+    implementation localGroovy()
 }
 ```
 3). 编写Plugin类

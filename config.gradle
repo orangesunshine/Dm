@@ -8,19 +8,277 @@ versions.buildToolsVersion = "30.0.2"
 versions.appId = "com.orange.DM"
 ext.versions = versions
 
-def plugins = [:]
-plugins.android_gradle_plugin = "com.android.tools.build:gradle:4.0.1"
-ext.plugins = plugins
+ext.useKtx = hasProperty("enKtx") ? enKtx : 0 //1:module,2:project
+ext.useX = hasProperty("enAndroidX") ? enAndroidX : false
+ext.useDatabinding = hasProperty("enDatabinding") ? enDatabinding : false
+println "useKtx: ${useKtx}, useX: ${useX}, useDatabinding: ${useDatabinding}"
+if (1 == useKtx) {
+    apply {
+        plugin "kotlin-android"
+        plugin "kotlin-android-extensions"
+        plugin 'kotlin-kapt'//kapt 插件
+    }
 
-def deps = [:]
-def atest = [:]
-atest.junit = 'junit:junit:4.12'
-atest.xjunit = 'androidx.test.ext:junit:1.1.2'
-atest.espresso = 'androidx.test.espresso:espresso-core:3.3.0'
-deps.atest = atest
+    kapt {
+        generateStubs = true
+    }
 
-def commonlibs = [:]
-commonlibs.appcompat = 'androidx.appcompat:appcompat:1.2.0'
-commonlibs.gson = 'com.google.code.gson:gson:2.8.0'
-deps.commonlibs = commonlibs
-ext.deps = deps
+    if (useDatabinding) {
+        android {
+            buildFeatures {
+                dataBinding true
+            }
+        }
+    }
+}
+
+def appcompat_version = "1.2.0"
+def kotlin_version = "1.4.10"
+def jetpack = [:]
+def lifecycle_version = "2.2.0"
+def arch_lifecycle_version = "1.1.1"
+def activity_version = "1.1.0"
+def fragment_version = "1.2.5"
+def collection_version = "1.1.0"
+def nav_version = "2.3.0"
+def paging_version = "2.1.2"
+def room_version = "2.2.5"
+def work_version = "2.4.0"
+
+def plugin = []
+plugin << "plugin__com.android.tools.build:gradle:4.0.1"
+plugin << "plugin__org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
+plugin << "plugin__com.google.dagger:hilt-android-gradle-plugin:2.28-alpha"
+ext.plugin = plugin
+
+def reps_maven = []
+reps_maven << "https://oss.sonatype.org/content/repositories/snapshots"
+reps_maven << "https://androidx.dev/snapshots/builds/6543454/artifacts/repository/"
+ext.reps_maven = reps_maven
+
+//common
+def common = [:]
+common.junit = 'junit:junit:4.12'
+common.xjunit = 'androidx.test.ext:junit:1.1.2'
+common.espresso = 'androidx.test.espresso:espresso-core:3.3.0'
+common.appcompat = "androidx.appcompat:appcompat:$appcompat_version"
+// For loading and tinting drawables on older versions of the platform
+common.appcompat_resources = "androidx.appcompat:appcompat-resources:$appcompat_version"
+if (useDatabinding) {
+    common.databinding_compiler = "kapt__com.android.databinding:compiler:4.0.1"
+}
+
+if (useKtx) {
+    common.kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    common.core = 'androidx.core:core-ktx:1.3.1'
+} else if (useX) {
+    common.core = "androidx.core:core:1.2.0"
+}
+ext.common = common
+
+jetpack.constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0"
+jetpack.contentpager = "androidx.contentpager:contentpager:1.0.0"
+jetpack.coordinatorlayout = "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+jetpack.drawerlayout = "androidx.drawerlayout:drawerlayout:1.1.1"
+jetpack.gridlayout = "androidx.gridlayout:gridlayout:1.0.0"
+jetpack.recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
+jetpack.recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0-rc02"
+
+if (useKtx) {
+    jetpack.activity = "androidx.activity:activity-ktx:$activity_version"
+} else if (useX) {
+    jetpack.activity = "androidx.activity:activity:$activity_version"
+}
+
+if (useKtx) {
+    jetpack.fragment = "androidx.fragment:fragment:$fragment_version"
+} else if (useX) {
+    jetpack.fragment = "androidx.fragment:fragment-ktx:$fragment_version"
+}
+jetpack.fragment_testing = "androidx.fragment:fragment-testing:$fragment_version"
+
+def nav = [:]
+if (useKtx) {
+    nav.fragment = "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    nav.ui = "androidx.navigation:navigation-ui-ktx:$nav_version"
+} else if (useX) {
+    nav.fragment = "androidx.navigation:navigation-fragment:$nav_version"
+    nav.ui = "androidx.navigation:navigation-ui:$nav_version"
+}
+nav.dynamic_features_fragment = "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+// Testing Navigation
+nav.testing = "test__androidx.navigation:navigation-testing:$nav_version"
+jetpack.nav = nav
+
+if (useKtx) {
+    jetpack.collection = "androidx.collection:collection-ktx:$collection_version"
+} else if (useX) {
+    jetpack.collection = "androidx.collection:collection:$collection_version"
+}
+
+// To use RoleManagerCompat
+jetpack.core_role = "androidx.core:core-role:1.0.0-alpha01"
+
+def datastore = [:]
+datastore.preferences = "androidx.datastore:datastore-preferences:1.0.0-alpha01"
+// Preferences DataStore
+datastore.core = "androidx.datastore:datastore-core:1.0.0-alpha01"// Proto DataStore
+jetpack.datastore = datastore
+
+def paging = [:]
+paging.runtime = "androidx.paging:paging-runtime:$paging_version"
+// For Kotlin use paging-runtime-ktx
+paging.common = "androidx.paging:paging-common:$paging_version"
+// For Kotlin use paging-common-ktx// alternatively - without Android dependencies for testing
+paging.rxjava2 = "androidx.paging:paging-rxjava2:$paging_version"
+// For Kotlin use paging-rxjava2-ktx// optional - RxJava support
+jetpack.paging = paging
+
+def room = [:]
+room.runtime = "androidx.room:room-runtime:$room_version"
+room.compiler = "kapt_androidx.room:room-compiler:$room_version"
+room.rxjava2 = "androidx.room:room-rxjava2:$room_version"// optional - RxJava support for Room
+room.guava = "androidx.room:room-guava:$room_version"
+// optional - Guava support for Room, including Optional and ListenableFuture
+room.testing = "test__androidx.room:room-testing:$room_version"// optional - Test helpers
+jetpack.room = room
+
+def work = [:]
+if (useKtx) {
+    work.runtime = "androidx.work:work-runtime-ktx:$work_version"// Kotlin + coroutines
+} else if (useX) {
+    work.runtime = "androidx.work:work-runtime:$work_version"
+    work.rxjava2 = "androidx.work:work-rxjava2:$work_version"// optional - RxJava2 support
+}
+work.gcm = "androidx.work:work-gcm:$work_version"// optional - GCMNetworkManager support
+work.testing = "test__androidx.work:work-testing:$work_version"
+
+def livedata = [:]
+if (useKtx) {
+    livedata.lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+} else if (useX) {
+    livedata.lifecycle = "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+} else {
+    livedata.lifecycle = "android.arch.lifecycle:livedata:$arch_lifecycle_version"
+}
+jetpack.livedata = livedata
+
+def viewmodel = [:]
+if (useKtx) {
+    viewmodel.lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+} else if (useX) {
+    viewmodel.lifecycle = "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+} else {
+    viewmodel.lifecycle = "android.arch.lifecycle:viewmodel:$arch_lifecycle_version"
+}
+if (useX) {
+    viewmodel.lifecycle_savedstate = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+}
+jetpack.viewmodel = viewmodel
+
+//lifecycle
+def lifecycle = [:]
+if (useX) {
+    lifecycle.process = "androidx.lifecycle:lifecycle-process:$lifecycle_version"
+    lifecycle.compiler = "apt__androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    lifecycle.java8 = "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    lifecycle.testing = "test__androidx.arch.core:core-testing:$lifecycle_version"
+}
+if (useKtx) {
+    lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    lifecycle.runtime = "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
+} else if (useX) {
+    lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
+    lifecycle.reactivestreams = "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+} else {
+    lifecycle.extensions = "android.arch.lifecycle:extensions:$arch_lifecycle_version"
+    lifecycle.runtime = "android.arch.lifecycle:runtime:$arch_lifecycle_version"
+    lifecycle.compiler = "apt__android.arch.lifecycle:compiler:$arch_lifecycle_version"
+    lifecycle.java8 = "android.arch.lifecycle:common-java8:$arch_lifecycle_version"
+    lifecycle.reactivestreams = "android.arch.lifecycle:reactivestreams:$arch_lifecycle_version"
+    lifecycle.testing = "android.arch.core:core-testing:$arch_lifecycle_version"
+}
+jetpack.lifecycle = lifecycle
+
+def coroutines = [:]
+coroutines.kotlinx_coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1"
+coroutines.kotlinx_coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1"
+jetpack.coroutines = coroutines
+
+def hilt = []
+hilt << "com.google.dagger:hilt-android:2.28-alpha"
+hilt << "kapt__com.google.dagger:hilt-android-compiler:2.28-alpha"
+jetpack.hilt = hilt
+ext.jetpack = jetpack
+
+//三方
+ext.gson = 'com.google.code.gson:gson:2.8.0'
+ext.glide = 'com.github.bumptech.glide:glide:4.9.0'
+def retrofit = []
+retrofit<<"com.squareup.retrofit2:retrofit:2.5.0"
+retrofit<<"com.squareup.retrofit2:adapter-rxjava2:2.5.0"
+retrofit<<'com.squareup.retrofit2:converter-gson:2.5.0'
+ext.retrofit = retrofit
+ext.rxjava2 = 'io.reactivex.rxjava2:rxjava:2.1.12'
+ext.rxandroid = 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
+def dagger2 = []
+dagger2 << "com.google.dagger:dagger:2.28.1"
+dagger2 << "kapt__com.google.dagger:dagger-compiler:2.28.1"
+ext.dagger2 = dagger2
+
+//方法
+def handleDep(DependencyHandler handler, CharSequence dep) {
+    println "handleDep: ${dep}"
+    if (dep.startsWithAny("plugin__")) {
+        plugin.add(dep.replaceAll("plugin__", ""))
+    } else if (1 == useKtx) {
+        if (dep.startsWithAny("test__")) {
+            handler.implementation dep.replaceAll("test__", "")
+        } else if (dep.startsWithAny("api__")) {
+            handler.api dep.replaceAll("api__", "")
+        } else if (dep.startsWithAny("kapt__")) {
+            def aapt = dep.replaceAll("kapt__", "")
+            println "aapt: ${aapt}"
+            handler.kapt dep.replaceAll("kapt__", "")
+        } else if (dep.startsWithAny("apt__")) {
+            handler.annotationProcessor dep.replaceAll("apt__", "")
+        } else {
+            handler.implementation dep
+        }
+    }
+}
+
+def addLibs(DependencyHandler handler, Object deps) {
+    if (deps) {
+        if (deps instanceof Map) {
+            if (deps.size() > 0) {
+                deps.each {
+                    if (it.value) {
+                        addLibs(handler, it.value)
+                    }
+                }
+            }
+        } else if (deps instanceof List) {
+            deps.forEach {
+                if (it) {
+                    addLibs(handler, it)
+                }
+            }
+        } else if (deps instanceof CharSequence) {
+            handleDep(handler, deps)
+        }
+    }
+}
+
+ext.addLibs = this.&addLibs
+
+def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    reps_maven.forEach {
+        handler.maven { url "${it}" }
+    }
+}
+
+ext.addRepos = this.&addRepos
