@@ -18,14 +18,15 @@
     "architecture": [
       {
         "isApply": false,
-        "path": ":dagger2_app"
+        "path": ":dagger2_app",
+        "deps": ["jetpack.constraintlayout"]
       },
       {
         "isApply": false,
         "path": ":mvp_app"
       },
       {
-        "isApply": false,
+        "isApply": true,
         "path": ":mvvm_hilt_databinding_viewmodel_livedata_app"
       }
     ],

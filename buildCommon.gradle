@@ -1,7 +1,7 @@
 apply {
     plugin "kotlin-android"
     plugin "kotlin-android-extensions"
-    plugin 'kotlin-kapt'//kapt 插件
+    //plugin 'kotlin-kapt'//kapt 插件
     from "${rootDir.path}/config.gradle"
 }
 

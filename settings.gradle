@@ -1,5 +1,9 @@
 import groovy.json.JsonSlurper
+ext.enAndroidX = true
+ext.enKtx = 0
+ext.enDatabinding = false
 
+apply from: "${rootDir.path}/config.gradle"
 def config = new JsonSlurper().parse(file("./config.json"))
 config.modules.each {
     def key = it.key
@@ -7,13 +11,19 @@ config.modules.each {
     if (value && value.size > 0) {
         value.each {
             if (it.isApply) {
+                //include module
                 def path = key
                 if (it.path) path += it.path
                 def modulename = ":" + path.replace(":", "_")
                 def modulepath = path.replace(":", "/")
-                println "modulename: ${modulename}"
                 include modulename
                 project(modulename).projectDir = file(modulepath)
+
+                //classpath、plugin、implementation、kapt，apt、testImplementation
+                def dep = it.deps
+                if (dep && dep.size() > 0) {
+                    deps.put(modulename, dep)
+                }
             }
         }
     }
