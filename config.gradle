@@ -17,7 +17,6 @@ ext.useKtx = hasProperty("enKtx") ? enKtx : false
 ext.useX = hasProperty("enAndroidX") ? enAndroidX : false
 ext.useDatabinding = hasProperty("enDatabinding") ? enDatabinding : false
 ext.useKapt = hasProperty("enKapt") ? enKapt : false
-println "useKtx: ${useKtx}, useX: ${useX}, useDatabinding: ${useDatabinding}, useKapt: ${useKapt}"
 
 
 //versions
@@ -230,7 +229,6 @@ depContainer.dagger2 = dagger2
 
 //方法
 def handleDep(DependencyHandler handler, CharSequence dep) {
-    GLog.l("handleDep: ${dep}")
     if (dep.startsWithAny("test__")) {
         handler.implementation dep.replaceAll("test__", "")
     } else if (dep.startsWithAny("api__")) {
@@ -294,7 +292,6 @@ if (!ext.has("jsonConfig")) {
  * @return
  */
 def includeModule(Settings settings) {
-    println "younger__config__includeModule: ${jsonConfig}"
     if (jsonConfig && jsonConfig.size() > 0) {
         def includeModules = []
         jsonConfig.each {
@@ -327,7 +324,6 @@ ext.includeModule = this.&includeModule
 def cycleFilter(Object deps, String filter) {
     def filterDeps = []
     if (deps) {
-        GLog.l("younger__config__cycleFilter: ${deps}")
         if (deps instanceof Map && deps.size() > 0) {
             deps.each {
                 if (it.value) {
@@ -383,7 +379,6 @@ def cfgNdClasspath() {
             }
         }
     }
-    GLog.l("younger__config__cfgNdClasspath__depKeys: ${depKeys}")
     if (depKeys && depKeys.size() > 0) {
         depKeys.forEach {
             if (it) {
@@ -412,7 +407,6 @@ def modulePlugin() {
         jsonConfig.each {
             def key = it.key
             def modules = it.value
-            GLog.l("younger__config__modulePlugin__key: ${key}, module: ${module}")
             if (modules && modules.size() > 0) {
                 modules.forEach {
                     def cfg = it.config
@@ -421,7 +415,6 @@ def modulePlugin() {
                         def path = key
                         if (it.path) path += it.path
                         def modulename = ":" + path.replace(":", "_")
-                        GLog.l("younger__config__modulePlugin__modulename: ${modulename}, name: ${project.name}，path: ${path}，key: ${key}")
                         if (modulename && modulename.equals(project.name)) {
                             depKeys << it.deps
                         }
@@ -431,7 +424,6 @@ def modulePlugin() {
         }
     }
 
-    GLog.l("younger__config__modulePlugin__depKeys: ${depKeys}")
     if (depKeys && depKeys.size() > 0) {
         depKeys.forEach {
             if (it) {
@@ -449,6 +441,7 @@ def modulePlugin() {
 ext.modulePlugin = this.&modulePlugin
 
 def moduleCfg(String moduleName) {
+    def ret
     if (jsonConfig && jsonConfig.size() > 0) {
         jsonConfig.each {
             def key = it.key
@@ -456,20 +449,20 @@ def moduleCfg(String moduleName) {
             if (modules && modules.size() > 0) {
                 modules.forEach {
                     def cfg = it.config
-                    GLog.l("younger__cfg: ${cfg}")
                     if (cfg && cfg.isApply) {
                         //include module
                         def path = key
                         if (it.path) path += it.path
                         def modulename = ":" + path.replace(":", "_")
                         if (moduleName && moduleName.equals(modulename.substring(1))) {
-                            return cfg
+                            ret = cfg
                         }
                     }
                 }
             }
         }
     }
+    return ret
 }
 
 ext.moduleCfg = this.&moduleCfg

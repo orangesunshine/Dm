@@ -1,21 +1,18 @@
 apply from: "${rootDir.path}/config.gradle"
 //配置文件
-def moduleConfig = moduleCfg(project.name)
-GLog.l("younger__buildCommon__build__moduleConfig: ${moduleConfig}, project.name: ${project.name}")
+ext.moduleConfig = moduleCfg(project.name)
 
-def useX = moduleConfig.enX
-def useKtx = moduleConfig.enKtx
-def useKapt = moduleConfig.enKapt
-def useLog = moduleConfig.enLog
-GLog.l("younger__buildCommon__build__useX: ${useX}," +
-        " useKtx: ${useKtx}, useKapt: ${useKapt}, useKapt: ${useKapt}, useLog: ${useLog}")
+def useX = moduleConfig.enX?moduleConfig.enX:false
+def useKtx = moduleConfig.enKtx?moduleConfig.enX:false
+def useKapt = moduleConfig.enKapt?moduleConfig.enX:false
+def useLog = moduleConfig.enLog?moduleConfig.enX:false
+
 GLog.debugSwitch = useLog
 
 def pluginDeps = modulePlugin()
-GLog.l("younger__buildCommon__build__pluginDeps: ${pluginDeps}")
+GLog.d("younger__buildCommon__build__pluginDeps: ${pluginDeps}")
 if (pluginDeps && pluginDeps.size() > 0) {
     pluginDeps.forEach {
-        GLog.l("younger__buildCommon__build__it: ${it}")
         if (it && it.startsWithAny("plugin__")) {
             apply plugin: it.replaceAll("plugin__", "")
         }

@@ -4,12 +4,10 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
     void beforeEvaluate(Project project) {
         if (project.name.contains("plugin")) return
         if (project.name.endsWith("app")) {
-            GLog.l(project.toString() + " applies buildApp.gradle")
             project.apply {
                 from "${project.rootDir.path}/buildApp.gradle"
             }
         } else {
-            GLog.l(project.toString() + " applies buildLib.gradle")
             project.apply {
                 from "${project.rootDir.path}/buildLib.gradle"
             }
@@ -33,7 +31,6 @@ buildscript {
         def classpathDeps = cfgNdClasspath()
         if (classpathDeps && classpathDeps.size() > 0) {
             classpathDeps.forEach {
-                GLog.l("younger__project__build__it: ${it}")
                 if (it && it.startsWithAny("classpath__")) {
                     classpath it.replaceAll("classpath__", "")
                 }
