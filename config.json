@@ -1,70 +1,148 @@
 {
-  "modules": {
-    "app": [
-      {
-        "isApply": false
-      }
-    ],
-    "plugin": [
-      {
-        "isApply": false,
-        "path": ":alone"
-      },
-      {
-        "isApply": false,
-        "path": ":maven"
-      }
-    ],
-    "architecture": [
-      {
-        "isApply": false,
-        "path": ":dagger2_app",
-        "deps": ["jetpack.constraintlayout"]
-      },
-      {
-        "isApply": false,
-        "path": ":mvp_app"
-      },
-      {
+  "app": [
+    {
+      "config": {
         "isApply": true,
-        "path": ":mvvm_hilt_databinding_viewmodel_livedata_app"
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true,
+        "enLog": true
       }
-    ],
-    "java": [
-      {
-        "isApply": false,
-        "path": ":viewbinding_app"
-      }
-    ],
-    "kotlin": [
-      {
-        "isApply": false,
-        "path": ":databinding_app"
-      }
-    ],
-    "jetpack": [
-      {
-        "isApply": false,
-        "path": ":model_app"
-      },{
-        "isApply": false,
-        "path": ":room_app"
-      },{
-        "isApply": false,
-        "path": ":coroutine_app"
+    }
+  ],
+  "plugin": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
       },
-      {
-        "isApply": false,
-        "path": ":viewbinding_app"
+      "path": ":alone"
+    },
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
       },
-      {
-        "isApply": false,
-        "path": ":lifecycleowner_app"
+      "path": ":maven",
+      "deps": [
+        "constraintlayout",
+        "dagger2"
+      ]
+    }
+  ],
+  "architecture": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
       },
-      {
-        "isApply": false,
-        "path": ":workmanager_app"
-      }
-    ]
-  }
+      "path": ":dagger2_app"
+    },
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":mvp_app"
+    },
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":mvvm_hilt_databinding_viewmodel_livedata_app",
+      "deps": [
+        "constraintlayout",
+        "hilt"
+      ]
+    }
+  ],
+  "java": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":viewbinding_app"
+    }
+  ],
+  "kotlin": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":databinding_app"
+    }
+  ],
+  "jetpack": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":model_app"
+    },
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":room_app"
+    },
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":coroutine_app"
+    },
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":viewbinding_app"
+    },
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":lifecycleowner_app"
+    },
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enKapt": true
+      },
+      "path": ":workmanager_app"
+    }
+  ]
 }

@@ -1,9 +1,27 @@
-apply {
-    plugin "kotlin-android"
-    plugin "kotlin-android-extensions"
-    //plugin 'kotlin-kapt'//kapt 插件
-    from "${rootDir.path}/config.gradle"
+apply from: "${rootDir.path}/config.gradle"
+//配置文件
+def moduleConfig = moduleCfg(project.name)
+GLog.l("younger__buildCommon__build__moduleConfig: ${moduleConfig}, project.name: ${project.name}")
+
+def useX = moduleConfig.enX
+def useKtx = moduleConfig.enKtx
+def useKapt = moduleConfig.enKapt
+def useLog = moduleConfig.enLog
+GLog.l("younger__buildCommon__build__useX: ${useX}," +
+        " useKtx: ${useKtx}, useKapt: ${useKapt}, useKapt: ${useKapt}, useLog: ${useLog}")
+GLog.debugSwitch = useLog
+
+def pluginDeps = modulePlugin()
+GLog.l("younger__buildCommon__build__pluginDeps: ${pluginDeps}")
+if (pluginDeps && pluginDeps.size() > 0) {
+    pluginDeps.forEach {
+        GLog.l("younger__buildCommon__build__it: ${it}")
+        if (it && it.startsWithAny("plugin__")) {
+            apply plugin: it.replaceAll("plugin__", "")
+        }
+    }
 }
+
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -45,12 +63,18 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+    if (useKtx) {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8
+        }
+    }
+
+    if (useDatabinding) {
+        buildFeatures.dataBinding = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    addLibs(dependencies, common)
+    addLibs(dependencies, pluginDeps)
 }

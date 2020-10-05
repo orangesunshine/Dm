@@ -1,34 +1,31 @@
 package com.orange.dagger
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.orange.dagger.component.DaggerComponentA
 import com.orange.dagger.data.DataA
-import com.orange.dagger.data.DataB
 import javax.inject.Inject
 
 
-class ActivityA:AppCompatActivity() {
+class ActivityA : AppCompatActivity() {
     @Inject
-    lateinit var dataA:DataA
+    lateinit var dataA: DataA
+
     @Inject
-    lateinit var dataACopy:DataA
+    lateinit var dataACopy: DataA
 
 
-    fun play(){
+    fun play() {
         println("dataA: ${dataA}, dataACopy: ${dataACopy}")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main);
-        val build = App.getAppComponent()
-        build.inject(this)
-        println("build: ${build}, dataA: ${dataA}, dataACopy: ${dataACopy}")
-        findViewById<View>(R.id.tv_content).setOnClickListener(View.OnClickListener {
-            startActivity(Intent(this,ActivityB::class.java))
-        })
+//        val build = App.getAppComponent()
+//        build.inject(this)
+//        println("build: ${build}, dataA: ${dataA}, dataACopy: ${dataACopy}")
+//        findViewById<View>(R.id.tv_content).setOnClickListener(View.OnClickListener {
+//            startActivity(Intent(this,ActivityB::class.java))
+//        })
     }
 }

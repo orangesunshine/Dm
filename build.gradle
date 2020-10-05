@@ -30,16 +30,12 @@ buildscript {
         addRepos(repositories)
     }
     dependencies {
-        deps.each{
-            def value = it.value
-            if(value && value.size()>0){
-                value.forEach{
-                    def dep = it
-                    println "dep: ${dep}"
-                    if(dep && dep.startsWithAny("classpath__")){
-                        GLog.l("classpath__: ${dep}")
-                        classpath dep.replaceAll("classpath__", "")
-                    }
+        def classpathDeps = cfgNdClasspath()
+        if (classpathDeps && classpathDeps.size() > 0) {
+            classpathDeps.forEach {
+                GLog.l("younger__project__build__it: ${it}")
+                if (it && it.startsWithAny("classpath__")) {
+                    classpath it.replaceAll("classpath__", "")
                 }
             }
         }

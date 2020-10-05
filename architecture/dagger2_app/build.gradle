@@ -1,4 +1,0 @@
-dependencies {
-    kapt "com.android.databinding:compiler:4.0.1"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-}

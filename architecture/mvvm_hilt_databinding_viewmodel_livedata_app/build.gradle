@@ -1,9 +1,0 @@
-//apply plugin: 'dagger.hilt.android.plugin'
-
-dependencies {
-//    addLibs(dependencies, jetpack.hilt)
-//    addLibs(dependencies, retrofit)
-//    addLibs(dependencies, rxjava2)
-//    addLibs(dependencies, rxandroid)
-    addLibs(dependencies, jetpack.constraintlayout)
-}

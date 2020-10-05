@@ -3,7 +3,6 @@ package com.orange.dagger;
 import android.app.Application;
 
 import com.orange.dagger.component.AppComponent;
-import com.orange.dagger.component.DaggerAppComponent;
 
 /**
  * @Description:
@@ -16,7 +15,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        appComponent = DaggerAppComponent.create();
+        //appComponent = DaggerAppComponent.create();
     }
 
     public static AppComponent getAppComponent() {
