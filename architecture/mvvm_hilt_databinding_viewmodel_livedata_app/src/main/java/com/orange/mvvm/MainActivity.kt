@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.getImage().observe(this, Observer {
             binding.image = it
         })
+
         viewModel.getBingImage("js", 1, 1)
     }
 }

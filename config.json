@@ -33,7 +33,7 @@
         "isApply": false,
         "enX": true,
         "enKtx": true,
-        "enLog": true
+        "enLog": false
       },
       "path": ":dagger2_app",
       "deps": [
@@ -46,7 +46,7 @@
         "isApply": false,
         "enX": true,
         "enKtx": true,
-        "enLog": true
+        "enLog": false
       },
       "path": ":mvp_app",
       "deps": [
@@ -55,11 +55,11 @@
     },
     {
       "config": {
-        "isApply": false,
+        "isApply": true,
         "enX": true,
         "enKtx": true,
         "enDatabinding": true,
-        "enLog": true
+        "enLog": false
       },
       "path": ":mvvm_hilt_databinding_viewmodel_livedata_app",
       "deps": [
@@ -67,6 +67,7 @@
         "hilt",
         "hilt_viewmodel",
         "viewmodel",
+        "livedata",
         "retrofit",
         "rxjava2",
         "rxandroid",
@@ -123,7 +124,7 @@
         "enX": true,
         "enDatabinding": true,
         "enKtx": true,
-        "enLog": true
+        "enLog": false
       },
       "path": ":model_app",
       "deps": [
@@ -133,7 +134,7 @@
     },
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true
       },
