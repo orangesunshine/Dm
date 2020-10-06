@@ -26,7 +26,7 @@
         <Button
             android:id="@+id/bt_two"
             android:layout_width="0dp"
-            android:text="@{image.tooltips.walle"
+            android:text="@{image.tooltips.previous}"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

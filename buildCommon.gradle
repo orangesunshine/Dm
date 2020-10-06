@@ -1,21 +1,29 @@
-apply from: "${rootDir.path}/config.gradle"
 //配置文件
-ext.moduleConfig = moduleCfg(project.name)
+def moduleConfig = moduleCfg(project.name)
+ext.enKtx = moduleConfig.enKtx ? moduleConfig.enKtx : false
+ext.enX = moduleConfig.enX ? moduleConfig.enX : false
+ext.enDatabinding = moduleConfig.enDatabinding ? moduleConfig.enDatabinding : false
+ext.enLog = moduleConfig.enLog ? moduleConfig.enLog : false
 
-def useX = moduleConfig.enX?moduleConfig.enX:false
-def useKtx = moduleConfig.enKtx?moduleConfig.enX:false
-def useKapt = moduleConfig.enKapt?moduleConfig.enX:false
-def useLog = moduleConfig.enLog?moduleConfig.enX:false
-
-GLog.debugSwitch = useLog
+apply from: "${rootDir.path}/config.gradle"
+GLog.debugSwitch = enLog
+GLog.d("younger__buildCommon__build__Config__enKtx: ${enKtx}, enX: ${enX}, enDatabinding: ${enDatabinding}, enLog: ${enLog}")
 
 def pluginDeps = modulePlugin()
 GLog.d("younger__buildCommon__build__pluginDeps: ${pluginDeps}")
+def kaptFlag = false
 if (pluginDeps && pluginDeps.size() > 0) {
     pluginDeps.forEach {
-        if (it && it.startsWithAny("plugin__")) {
-            apply plugin: it.replaceAll("plugin__", "")
+        if(it){
+            if (it.startsWithAny("plugin__")) {
+                apply plugin: it.replaceAll("plugin__", "")
+            }else if(!kaptFlag && it.startsWithAny("kapt__")){
+                kaptFlag = true
+            }
         }
+    }
+    if(kaptFlag){
+        apply plugin: "kotlin-kapt"
     }
 }
 
@@ -29,7 +37,7 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             applicationIdSuffix ".debug"
         }
@@ -60,13 +68,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    if (useKtx) {
+    if (enKtx) {
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_1_8
         }
     }
 
-    if (useDatabinding) {
+    if (enDatabinding) {
         buildFeatures.dataBinding = true
     }
 }

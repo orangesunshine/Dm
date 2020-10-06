@@ -6,7 +6,7 @@ import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
 
 class StudentLiveDataModel(stu: Student) : ViewModel() {
-    private var studentmld = MutableLiveData(stu)
+    private var studentmld = MutableLiveData<Student>()
     private var studentld: LiveData<Student> = studentmld
     private var score: LiveData<Double> = map(studentmld, { it.score })
 

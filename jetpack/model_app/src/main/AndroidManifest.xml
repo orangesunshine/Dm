@@ -21,5 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.LiveDataMapActivity" />
+        <activity android:name=".activity.viewmodel.ViewModelNdLiveDataActivity" />
+        <activity android:name=".activity.viewmodel.ViewModelActivityWithNoArgs" />
     </application>
 </manifest>

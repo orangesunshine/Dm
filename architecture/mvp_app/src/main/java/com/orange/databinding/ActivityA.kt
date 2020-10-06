@@ -10,7 +10,7 @@ import com.orange.mvp.contract.IDmContract
 import javax.inject.Inject
 
 
-class ActivityA : AppCompatActivity() {
+class ActivityA : AppCompatActivity(),IDmContract.View {
     @Inject
     lateinit var presenter:IDmContract.Presenter
 
@@ -18,10 +18,14 @@ class ActivityA : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main);
         DaggerIComponent.create().inject(this)
-        var msg = presenter.getMsg()
-        Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
+        presenter.attach(this)
+        presenter.getMsg()
         findViewById<View>(R.id.tv_content).setOnClickListener(View.OnClickListener {
             startActivity(Intent(this, ActivityB::class.java))
         })
+    }
+
+    override fun showMsg(msg: String) {
+        Toast.makeText(this,msg,Toast.LENGTH_LONG).show()
     }
 }

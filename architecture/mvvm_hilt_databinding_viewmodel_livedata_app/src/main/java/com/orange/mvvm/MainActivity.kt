@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import com.orange.mvvm.databinding.ActivityMainBinding
 import com.orange.mvvm.viewmodel.BingViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -16,7 +15,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        var binding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         viewModel.getImage().observe(this, Observer {
             binding.image = it
         })

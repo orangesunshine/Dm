@@ -1,4 +1,4 @@
-package com.orange.model.viewmodel
+package com.orange.model.livedata
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

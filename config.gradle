@@ -12,13 +12,6 @@ versions.appId = "com.orange.DM"
 ext.versions = versions
 
 
-//vars
-ext.useKtx = hasProperty("enKtx") ? enKtx : false
-ext.useX = hasProperty("enAndroidX") ? enAndroidX : false
-ext.useDatabinding = hasProperty("enDatabinding") ? enDatabinding : false
-ext.useKapt = hasProperty("enKapt") ? enKapt : false
-
-
 //versions
 def appcompat_version = "1.2.0"
 def kotlin_version = "1.4.10"
@@ -54,23 +47,20 @@ common << 'androidx.test.espresso:espresso-core:3.3.0'
 common << "androidx.appcompat:appcompat:$appcompat_version"
 // For loading and tinting drawables on older versions of the platform
 common << "androidx.appcompat:appcompat-resources:$appcompat_version"
-if (useDatabinding) {
+if (enDatabinding) {
     common << "kapt__com.android.databinding:compiler:4.0.1"
 }
 
-if (useKtx) {
+if (enKtx) {
     common << "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     common << 'androidx.core:core-ktx:1.3.1'
     common << "plugin__kotlin-android"
     common << "plugin__kotlin-android-extensions"
     common << "classpath__org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
-} else if (useX) {
+} else if (enX) {
     common << "androidx.core:core:1.2.0"
 }
 
-if (useKapt) {
-    common << "plugin__kotlin-kapt"
-}
 depContainer.common = common
 
 depContainer.constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0"
@@ -81,22 +71,22 @@ depContainer.gridlayout = "androidx.gridlayout:gridlayout:1.0.0"
 depContainer.recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
 depContainer.recyclerview_selection = "androidx.recyclerview:recyclerview-selection:1.1.0-rc02"
 
-if (useKtx) {
+if (enKtx) {
     depContainer.activity = "androidx.activity:activity-ktx:$activity_version"
-} else if (useX) {
+} else if (enX) {
     depContainer.activity = "androidx.activity:activity:$activity_version"
 }
 
-if (useKtx) {
+if (enKtx) {
     depContainer.fragment = "androidx.fragment:fragment:$fragment_version"
-} else if (useX) {
+} else if (enX) {
     depContainer.fragment = "androidx.fragment:fragment-ktx:$fragment_version"
 }
 depContainer.fragment_testing = "androidx.fragment:fragment-testing:$fragment_version"
 
-if (useKtx) {
+if (enKtx) {
     depContainer.collection = "androidx.collection:collection-ktx:$collection_version"
-} else if (useX) {
+} else if (enX) {
     depContainer.collection = "androidx.collection:collection:$collection_version"
 }
 
@@ -120,10 +110,10 @@ depContainer.paging = paging
 
 
 def nav = [:]
-if (useKtx) {
+if (enKtx) {
     nav.fragment = "androidx.navigation:navigation-fragment-ktx:$nav_version"
     nav.ui = "androidx.navigation:navigation-ui-ktx:$nav_version"
-} else if (useX) {
+} else if (enX) {
     nav.fragment = "androidx.navigation:navigation-fragment:$nav_version"
     nav.ui = "androidx.navigation:navigation-ui:$nav_version"
 }
@@ -132,9 +122,11 @@ nav.dynamic_features_fragment = "androidx.navigation:navigation-dynamic-features
 nav.testing = "test__androidx.navigation:navigation-testing:$nav_version"
 depContainer.nav = nav
 
+
 def room = [:]
 room.runtime = "androidx.room:room-runtime:$room_version"
 room.compiler = "kapt__androidx.room:room-compiler:$room_version"
+room.room_ktx = "androidx.room:room-ktx:$room_version"
 room.rxjava2 = "androidx.room:room-rxjava2:$room_version"// optional - RxJava support for Room
 room.guava = "androidx.room:room-guava:$room_version"
 // optional - Guava support for Room, including Optional and ListenableFuture
@@ -142,9 +134,9 @@ room.testing = "test__androidx.room:room-testing:$room_version"// optional - Tes
 depContainer.room = room
 
 def work = [:]
-if (useKtx) {
+if (enKtx) {
     work.runtime = "androidx.work:work-runtime-ktx:$work_version"// Kotlin + coroutines
-} else if (useX) {
+} else if (enX) {
     work.runtime = "androidx.work:work-runtime:$work_version"
     work.rxjava2 = "androidx.work:work-rxjava2:$work_version"// optional - RxJava2 support
 }
@@ -153,9 +145,9 @@ work.testing = "test__androidx.work:work-testing:$work_version"
 depContainer.work = work
 
 def livedata = [:]
-if (useKtx) {
+if (enKtx) {
     livedata.lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-} else if (useX) {
+} else if (enX) {
     livedata.lifecycle = "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
 } else {
     livedata.lifecycle = "android.arch.lifecycle:livedata:$arch_lifecycle_version"
@@ -163,30 +155,29 @@ if (useKtx) {
 depContainer.livedata = livedata
 
 def viewmodel = [:]
-if (useKtx) {
-    viewmodel.lifecycle = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-} else if (useX) {
+if (enKtx) {
+    viewmodel.lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+}
+if (enX) {
     viewmodel.lifecycle = "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    viewmodel.lifecycle_savedstate = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 } else {
     viewmodel.lifecycle = "android.arch.lifecycle:viewmodel:$arch_lifecycle_version"
-}
-if (useX) {
-    viewmodel.lifecycle_savedstate = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 }
 depContainer.viewmodel = viewmodel
 
 //lifecycle
 def lifecycle = [:]
-if (useX) {
+if (enX) {
     lifecycle.process = "androidx.lifecycle:lifecycle-process:$lifecycle_version"
     lifecycle.compiler = "apt__androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     lifecycle.java8 = "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     lifecycle.testing = "test__androidx.arch.core:core-testing:$lifecycle_version"
 }
-if (useKtx) {
+if (enKtx) {
     lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     lifecycle.runtime = "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
-} else if (useX) {
+} else if (enX) {
     lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
     lifecycle.reactivestreams = "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
 } else {
@@ -199,6 +190,7 @@ if (useKtx) {
 }
 depContainer.lifecycle = lifecycle
 
+
 def coroutines = [:]
 coroutines.kotlinx_coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1"
 coroutines.kotlinx_coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1"
@@ -210,6 +202,15 @@ hilt << "kapt__com.google.dagger:hilt-android-compiler:2.28-alpha"
 hilt << "plugin__dagger.hilt.android.plugin"
 hilt << "classpath__com.google.dagger:hilt-android-gradle-plugin:2.28-alpha"
 depContainer.hilt = hilt
+
+def hilt_viewmodel = []
+hilt_viewmodel << 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha01'
+if (enKtx) {
+    hilt_viewmodel << 'kapt__androidx.hilt:hilt-compiler:1.0.0-alpha01'
+} else {
+    hilt_viewmodel << 'apt__androidx.hilt:hilt-compiler:1.0.0-alpha01'
+}
+depContainer.hilt_viewmodel = hilt_viewmodel
 
 //三方
 depContainer.gson = 'com.google.code.gson:gson:2.8.0'
@@ -354,7 +355,7 @@ def cycleFilter(Object deps, String filter) {
  * @return 返回依赖，引用工程classpath plugin
  */
 def cfgNdClasspath() {
-    GLog.l("younger__config__cfgNdClasspath: ${jsonConfig}")
+    GLog.d("younger__config__cfgNdClasspath: ${jsonConfig}")
     def depKeys = []
     def classpathDeps = []
     depKeys << "common"
@@ -415,8 +416,13 @@ def modulePlugin() {
                         def path = key
                         if (it.path) path += it.path
                         def modulename = ":" + path.replace(":", "_")
-                        if (modulename && modulename.equals(project.name)) {
-                            depKeys << it.deps
+                        if (modulename && modulename.substring(1).equals(project.name)) {
+                            def deps = it.deps
+                            if (deps && deps.size() > 0) {
+                                deps.forEach {
+                                    depKeys << it
+                                }
+                            }
                         }
                     }
                 }
@@ -424,6 +430,7 @@ def modulePlugin() {
         }
     }
 
+    GLog.d("younger__config__modulePlugin__depKeys: ${depKeys}")
     if (depKeys && depKeys.size() > 0) {
         depKeys.forEach {
             if (it) {

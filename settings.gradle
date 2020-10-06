@@ -1,5 +1,7 @@
-ext.enAndroidX = true
-ext.enDatabinding = false
+ext.enKtx = true
+ext.enX = true
+ext.enDatabinding = true
+ext.enLog = true
 
 apply from: "${rootDir.path}/config.gradle"
 includeModule(settings)

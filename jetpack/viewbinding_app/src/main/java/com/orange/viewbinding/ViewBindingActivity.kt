@@ -2,7 +2,8 @@ package com.orange.viewbinding
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.orange.jetpack.databinding.ActivityMainBinding
+import com.orange.viewbinding.databinding.ActivityMainBinding
+
 
 class ViewBindingActivity:AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {

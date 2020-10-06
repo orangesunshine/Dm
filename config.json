@@ -2,78 +2,84 @@
   "app": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
-        "enKapt": true,
-        "enLog": true
+        "enLog": false
       }
     }
   ],
   "plugin": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
-        "enKtx": true,
-        "enKapt": true
+        "enKtx": true
       },
       "path": ":alone"
     },
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
-        "enKtx": true,
-        "enKapt": true
+        "enKtx": true
       },
-      "path": ":maven",
-      "deps": [
-        "constraintlayout",
-        "dagger2"
-      ]
+      "path": ":maven"
     }
   ],
   "architecture": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
-        "enKapt": true
+        "enLog": true
       },
-      "path": ":dagger2_app"
+      "path": ":dagger2_app",
+      "deps": [
+        "constraintlayout",
+        "dagger2"
+      ]
     },
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
-        "enKapt": true
+        "enLog": true
       },
-      "path": ":mvp_app"
+      "path": ":mvp_app",
+      "deps": [
+        "dagger2"
+      ]
     },
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
-        "enKapt": true
+        "enDatabinding": true,
+        "enLog": true
       },
       "path": ":mvvm_hilt_databinding_viewmodel_livedata_app",
       "deps": [
         "constraintlayout",
-        "hilt"
+        "hilt",
+        "hilt_viewmodel",
+        "viewmodel",
+        "retrofit",
+        "rxjava2",
+        "rxandroid",
+        "activity"
       ]
     }
   ],
   "java": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
-        "enKtx": true,
-        "enKapt": true
+        "enKtx": false
       },
       "path": ":viewbinding_app"
     }
@@ -81,10 +87,10 @@
   "kotlin": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
-        "enKtx": true,
-        "enKapt": true
+        "enDatabinding": true,
+        "enKtx": true
       },
       "path": ":databinding_app"
     }
@@ -92,57 +98,70 @@
   "jetpack": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
-        "enKtx": true,
-        "enKapt": true
+        "enDatabinding": true,
+        "enKtx": true
       },
-      "path": ":model_app"
+      "path": ":coroutines_app",
+      "deps": [
+        "coroutines"
+      ]
     },
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
-        "enKtx": true,
-        "enKapt": true
-      },
-      "path": ":room_app"
-    },
-    {
-      "config": {
-        "isApply": true,
-        "enX": true,
-        "enKtx": true,
-        "enKapt": true
-      },
-      "path": ":coroutine_app"
-    },
-    {
-      "config": {
-        "isApply": true,
-        "enX": true,
-        "enKtx": true,
-        "enKapt": true
-      },
-      "path": ":viewbinding_app"
-    },
-    {
-      "config": {
-        "isApply": true,
-        "enX": true,
-        "enKtx": true,
-        "enKapt": true
+        "enDatabinding": true,
+        "enKtx": true
       },
       "path": ":lifecycleowner_app"
     },
     {
       "config": {
+        "isApply": false,
+        "enX": true,
+        "enDatabinding": true,
+        "enKtx": true,
+        "enLog": true
+      },
+      "path": ":model_app",
+      "deps": [
+        "livedata",
+        "viewmodel"
+      ]
+    },
+    {
+      "config": {
         "isApply": true,
         "enX": true,
-        "enKtx": true,
-        "enKapt": true
+        "enKtx": true
       },
-      "path": ":workmanager_app"
+      "path": ":room_app",
+      "deps": [
+        "room",
+        "hilt",
+        "coroutines"
+      ]
+    },
+    {
+      "config": {
+        "isApply": false,
+        "enX": true,
+        "enKtx": true
+      },
+      "path": ":viewbinding_app"
+    },
+    {
+      "config": {
+        "isApply": false,
+        "enX": true,
+        "enKtx": true
+      },
+      "path": ":workmanager_app",
+      "deps": [
+        "work"
+      ]
     }
   ]
 }

@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.orange.model.viewmodel.MainLiveDataModel
+import com.orange.model.livedata.MainLiveDataModel
 
 class WorkLiveDataUtils(var model: MainLiveDataModel) : LifecycleObserver {
     val TAG = javaClass.canonicalName

@@ -20,9 +20,10 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
     }
 })
 buildscript {
-    ext.enAndroidX = true
-    ext.enKtx = 2
-    ext.enDatabinding = false
+    ext.enKtx = true
+    ext.enX = true
+    ext.enDatabinding = true
+    ext.enLog = true
     apply from: "${rootDir.path}/config.gradle"
     repositories {
         addRepos(repositories)

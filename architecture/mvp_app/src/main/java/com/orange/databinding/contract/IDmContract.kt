@@ -8,6 +8,6 @@ interface IDmContract {
     interface Presenter{
         fun attach(v:View)
 
-        fun getMsg():String
+        fun getMsg()
     }
 }

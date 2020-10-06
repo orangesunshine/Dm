@@ -1,4 +1,0 @@
-dependencies {
-    addLibs(dependencies, depContainer.room)
-    addLibs(dependencies, depContainer.coroutines)
-}

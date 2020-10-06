@@ -8,7 +8,6 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.android.tools.build.jetifier.core.utils.Log
 import com.orange.workmanager.R
 
 class NotificationWorker(context: Context, workerParameters: WorkerParameters) :
