@@ -80,15 +80,20 @@
       "config": {
         "isApply": false,
         "enX": true,
-        "enKtx": false
+        "enKtx": false,
+        "enLog": true
       },
-      "path": ":viewbinding_app"
+      "path": ":viewbinding_app",
+      "deps": [
+        "lifecycle",
+        "viewmodel"
+      ]
     }
   ],
   "kotlin": [
     {
       "config": {
-        "isApply": false,
+        "isApply": true,
         "enX": true,
         "enDatabinding": true,
         "enKtx": true

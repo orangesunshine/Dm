@@ -16,6 +16,7 @@ ext.versions = versions
 def appcompat_version = "1.2.0"
 def kotlin_version = "1.4.10"
 def lifecycle_version = "2.2.0"
+def arch_version = "2.1.0"
 def arch_lifecycle_version = "1.1.1"
 def activity_version = "1.1.0"
 def fragment_version = "1.2.5"
@@ -172,7 +173,7 @@ if (enX) {
     lifecycle.process = "androidx.lifecycle:lifecycle-process:$lifecycle_version"
     lifecycle.compiler = "apt__androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     lifecycle.java8 = "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    lifecycle.testing = "test__androidx.arch.core:core-testing:$lifecycle_version"
+    lifecycle.testing = "test__androidx.arch.core:core-testing:$arch_version"
 }
 if (enKtx) {
     lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
@@ -186,7 +187,7 @@ if (enKtx) {
     lifecycle.compiler = "apt__android.arch.lifecycle:compiler:$arch_lifecycle_version"
     lifecycle.java8 = "android.arch.lifecycle:common-java8:$arch_lifecycle_version"
     lifecycle.reactivestreams = "android.arch.lifecycle:reactivestreams:$arch_lifecycle_version"
-    lifecycle.testing = "android.arch.core:core-testing:$arch_lifecycle_version"
+    lifecycle.testing = "test__android.arch.core:core-testing:$arch_lifecycle_version"
 }
 depContainer.lifecycle = lifecycle
 
