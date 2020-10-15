@@ -25,6 +25,12 @@ def nav_version = "2.3.0"
 def paging_version = "2.1.2"
 def room_version = "2.2.5"
 def work_version = "2.4.0"
+def mockitoCore_version = "1.10.8"
+def mockitoAndroid_version = "3.5.13"
+def robolectric_version = "4.4"
+def awaitility_version = "4.0.3"
+def rules_version = "1.2.0"
+def androidxtruth_version = "1.0.1"
 
 
 def depContainer = [:]
@@ -229,10 +235,23 @@ dagger2 << "com.google.dagger:dagger:2.28.1"
 dagger2 << "kapt__com.google.dagger:dagger-compiler:2.28.1"
 depContainer.dagger2 = dagger2
 
+def test = [:]
+depContainer.test = test
+test.mockito_core =  "androidtest__org.mockito:mockito-core:$mockitoCore_version"
+test.mockito_android =  "androidtest__org.mockito:mockito-android:$mockitoAndroid_version"
+test.robolectric = "androidtest__org.robolectric:robolectric:$robolectric_version"
+test.awaitility = "androidtest__org.awaitility:awaitility:$awaitility_version"
+test.core = 'androidtest__androidx.test:core:1.3.0'
+test.rules = "androidtest__androidx.test:rules:$rules_version"
+test.truth ="androidtest__com.google.truth:truth:$androidxtruth_version"
+test.runner ="androidtest__androidx.test:runner:1.2.0"
+
 //方法
 def handleDep(DependencyHandler handler, CharSequence dep) {
     if (dep.startsWithAny("test__")) {
-        handler.implementation dep.replaceAll("test__", "")
+        handler.testImplementation dep.replaceAll("test__", "")
+    } else if (dep.startsWithAny("androidtest__")) {
+        handler.androidTestImplementation dep.replaceAll("androidtest__", "")
     } else if (dep.startsWithAny("api__")) {
         handler.api dep.replaceAll("api__", "")
     } else if (dep.startsWithAny("kapt__")) {

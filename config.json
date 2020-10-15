@@ -169,5 +169,19 @@
         "work"
       ]
     }
+  ],
+  "test": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":junit_app",
+      "deps": [
+        "test"
+      ]
+    }
   ]
 }
