@@ -13,7 +13,7 @@ ext.versions = versions
 
 
 //versions
-def appcompat_version = "1.2.0"
+def appcompat_version = "1.3.0-alpha02"
 def kotlin_version = "1.4.10"
 def lifecycle_version = "2.2.0"
 def arch_version = "2.1.0"
@@ -48,13 +48,14 @@ depContainer.reps_maven = reps_maven
 //libs
 //common
 def common = []
+depContainer.common = common
 common << "classpath__com.android.tools.build:gradle:4.0.1"
 common << 'junit:junit:4.12'
 common << 'androidx.test.ext:junit:1.1.2'
 common << 'androidx.test.espresso:espresso-core:3.3.0'
 common << "androidx.appcompat:appcompat:$appcompat_version"
 // For loading and tinting drawables on older versions of the platform
-common << "androidx.appcompat:appcompat-resources:$appcompat_version"
+//common << "androidx.appcompat:appcompat-resources:$appcompat_version"
 if (enDatabinding) {
     common << "kapt__com.android.databinding:compiler:4.0.1"
 }
@@ -68,8 +69,6 @@ if (enKtx) {
 } else if (enX) {
     common << "androidx.core:core:1.2.0"
 }
-
-depContainer.common = common
 
 depContainer.constraintlayout = "androidx.constraintlayout:constraintlayout:2.0.0"
 depContainer.contentpager = "androidx.contentpager:contentpager:1.0.0"
@@ -244,16 +243,17 @@ kotlin_reflect << "test__org.jetbrains.kotlin:kotlin-test"
 kotlin_reflect << "test__org.jetbrains.kotlin:kotlin-test-junit"
 depContainer.kotlin_reflect = kotlin_reflect
 
-def test = [:]
-depContainer.test = test
-test.mockito_core =  "androidtest__org.mockito:mockito-core:$mockitoCore_version"
-test.mockito_android =  "androidtest__org.mockito:mockito-android:$mockitoAndroid_version"
-test.robolectric = "androidtest__org.robolectric:robolectric:$robolectric_version"
-test.awaitility = "androidtest__org.awaitility:awaitility:$awaitility_version"
-test.core = 'androidtest__androidx.test:core:1.3.0'
-test.rules = "androidtest__androidx.test:rules:$rules_version"
-test.truth ="androidtest__com.google.truth:truth:$androidxtruth_version"
-test.runner ="androidtest__androidx.test:runner:1.2.0"
+def mockito = [:]
+depContainer.mockito = mockito
+mockito.core = "androidtest__org.mockito:mockito-core:$mockitoCore_version"
+mockito.android = "androidtest__org.mockito:mockito-android:$mockitoAndroid_version"
+
+depContainer.robolectric = "androidtest__org.robolectric:robolectric:$robolectric_version"
+depContainer.awaitility = "androidtest__org.awaitility:awaitility:$awaitility_version"
+depContainer.rules = "androidtest__androidx.test:rules:$rules_version"
+depContainer.truth = "androidtest__com.google.truth:truth:$androidxtruth_version"
+depContainer.runner = "androidtest__androidx.test:runner:1.2.0"
+depContainer.test_core = "androidtest__androidx.test:core:1.3.0"
 
 //方法
 def handleDep(DependencyHandler handler, CharSequence dep) {

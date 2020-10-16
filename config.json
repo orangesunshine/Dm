@@ -173,7 +173,7 @@
   "ui": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -184,7 +184,7 @@
   "thirdlibs": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -203,10 +203,15 @@
         "enKtx": true,
         "enLog": false
       },
-      "path": ":junit_app",
-      "deps": [
-        "test"
-      ]
+      "path": ":junit_app"
+    },{
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enLog": true
+      },
+      "path": ":mockito_app"
     }
   ]
 }
