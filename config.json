@@ -55,7 +55,7 @@
     },
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enDatabinding": true,
@@ -93,7 +93,7 @@
   "kotlin": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enDatabinding": true,
         "enKtx": true
@@ -198,7 +198,7 @@
   "test": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -211,7 +211,22 @@
         "enKtx": true,
         "enLog": true
       },
-      "path": ":mockito_app"
+      "path": ":mockito_app",
+      "deps": [
+        "mockito"
+      ]
+    },{
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enLog": true
+      },
+      "path": ":powermock_app",
+      "deps": [
+        "mockito",
+        "powermock"
+      ]
     }
   ]
 }

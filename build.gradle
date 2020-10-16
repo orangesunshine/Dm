@@ -7,11 +7,12 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
             project.apply {
                 from "${project.rootDir.path}/buildApp.gradle"
             }
-        } else if(project.name.endsWith("java")){
+        } else if (project.name.endsWith("java")) {
+
             project.apply {
                 from "${project.rootDir.path}/buildJava.gradle"
             }
-        }else {
+        } else {
             project.apply {
                 from "${project.rootDir.path}/buildLib.gradle"
             }
