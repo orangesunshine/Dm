@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">app</string>
+    <string name="to_login_fragment">LOGIN_FRAGMENT</string>
+    <string name="to_register_fragment">REGISTER_FRAGMENT</string>
+</resources>

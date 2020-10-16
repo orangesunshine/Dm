@@ -1,16 +1,12 @@
 package com.orange.viewbinding;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.orange.viewbinding.databinding.ActivityMainBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -24,11 +20,6 @@ public class ViewBindingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ActivityMainBinding inflate = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(inflate.getRoot());
-        inflate.btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ViewBindingActivity.this,"保存",Toast.LENGTH_LONG).show();
-            }
-        });
+        inflate.btnSave.setOnClickListener(v -> Toast.makeText(ViewBindingActivity.this,"保存",Toast.LENGTH_LONG).show());
     }
 }

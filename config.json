@@ -170,6 +170,31 @@
       ]
     }
   ],
+  "ui": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":statusbar_app"
+    }
+  ],
+  "thirdlibs": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":timber_app",
+      "deps": [
+        "timber"
+      ]
+    }
+  ],
   "test": [
     {
       "config": {

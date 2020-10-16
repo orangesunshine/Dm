@@ -25,6 +25,7 @@ def nav_version = "2.3.0"
 def paging_version = "2.1.2"
 def room_version = "2.2.5"
 def work_version = "2.4.0"
+def navigation_version = "2.1.0"
 def mockitoCore_version = "1.10.8"
 def mockitoAndroid_version = "3.5.13"
 def robolectric_version = "4.4"
@@ -235,6 +236,14 @@ dagger2 << "com.google.dagger:dagger:2.28.1"
 dagger2 << "kapt__com.google.dagger:dagger-compiler:2.28.1"
 depContainer.dagger2 = dagger2
 
+//添加Kotlin反射jar包
+def kotlin_reflect = []
+kotlin_reflect << "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+kotlin_reflect << "org.jetbrains.kotlin:kotlin-reflect"
+kotlin_reflect << "test__org.jetbrains.kotlin:kotlin-test"
+kotlin_reflect << "test__org.jetbrains.kotlin:kotlin-test-junit"
+depContainer.kotlin_reflect = kotlin_reflect
+
 def test = [:]
 depContainer.test = test
 test.mockito_core =  "androidtest__org.mockito:mockito-core:$mockitoCore_version"
@@ -249,6 +258,7 @@ test.runner ="androidtest__androidx.test:runner:1.2.0"
 //方法
 def handleDep(DependencyHandler handler, CharSequence dep) {
     if (dep.startsWithAny("test__")) {
+        handler.testImplementation dep.replaceAll("test__", "")
         handler.testImplementation dep.replaceAll("test__", "")
     } else if (dep.startsWithAny("androidtest__")) {
         handler.androidTestImplementation dep.replaceAll("androidtest__", "")
