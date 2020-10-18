@@ -17,7 +17,7 @@ android {
 
 def configSigning() {
 
-    File signPropertiesFile = file("${rootDir.path}/sign/keystore.properties")
+    File signPropertiesFile = file("${rootDir.path}/apk-signature/keystore.properties")
     if (!signPropertiesFile.exists()) return
 
     //GLog.d("${project.toString()} sign start...")
@@ -26,10 +26,10 @@ def configSigning() {
         properties.load(new FileInputStream(signPropertiesFile))
         signingConfigs {
             release {
-                storeFile new File(signPropertiesFile.getParent(), properties['keystore'])
-                storePassword properties['storePassword']
-                keyAlias properties['keyAlias']
-                keyPassword properties['keyPassword']
+                storeFile new File(signPropertiesFile.getParent(), properties['key.file'])
+                storePassword properties['store.password']
+                keyAlias properties['key.alias']
+                keyPassword properties['key.password']
             }
         }
         buildTypes.release.signingConfig signingConfigs.release

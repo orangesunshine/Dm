@@ -192,6 +192,15 @@
       "path": ":timber_app",
       "deps": [
         "timber"
+      ],"config": {
+        "isApply": false,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":bugly_app",
+      "deps": [
+        "bugly"
       ]
     }
   ],
@@ -204,9 +213,10 @@
         "enLog": false
       },
       "path": ":junit_app"
-    },{
+    },
+    {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": true
@@ -215,9 +225,10 @@
       "deps": [
         "mockito"
       ]
-    },{
+    },
+    {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": true
@@ -227,6 +238,17 @@
         "mockito",
         "powermock"
       ]
+    }
+  ],
+  "proguard": [
+    {
+      "config": {
+        "isApply": false,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":proguard_app"
     }
   ]
 }

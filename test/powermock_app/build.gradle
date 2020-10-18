@@ -1,1 +1,6 @@
+android {
+    defaultConfig {
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+}
 android.testOptions.unitTests.includeAndroidResources = true

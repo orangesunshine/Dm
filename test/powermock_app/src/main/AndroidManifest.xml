@@ -1,14 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.orange.xx">
+    package="com.orange.powermock">
 
     <application
-        android:name=".xx"
+        android:name=".PowermockApp"
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".xx"
+            android:name=".PowermockActivity"
             android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnspecified|adjustPan">
@@ -22,5 +22,6 @@
 
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" />
     </application>
 </manifest>

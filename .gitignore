@@ -8,6 +8,7 @@
 .externalNativeBuild
 .cxx
 .DS_Store
+.log
 ~$*
 gradlew
 # 自定义了根目录gradle/gradle-wrapper.properties的请删除这条（不推荐自定义）
