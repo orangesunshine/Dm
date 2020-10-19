@@ -5,8 +5,8 @@ def versions = [:]
 versions.compileSdkVersion = 29
 versions.minSdkVersion = 16
 versions.targetSdkVersion = 29
-versions.versionCode = 1
-versions.versionName = "1.0"
+versions.versionCode = 102
+versions.versionName = "1.0.2"
 versions.buildToolsVersion = "30.0.2"
 versions.appId = "com.orange.DM"
 ext.versions = versions
@@ -236,10 +236,11 @@ depContainer.rxjava2 = 'io.reactivex.rxjava2:rxjava:2.1.12'
 depContainer.rxandroid = 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
 //bugly
-def bugly = []
+def bugly = [:]
 depContainer.bugly = bugly
-bugly << 'com.tencent.bugly:crashreport:latest.release'
-bugly << 'com.tencent.bugly:nativecrashreport:latest.release'
+//bugly.report = 'com.tencent.bugly:crashreport:latest.release'
+bugly.upgrade = 'com.tencent.bugly:crashreport_upgrade:latest.release'
+bugly.nativecrashreport = 'com.tencent.bugly:nativecrashreport:latest.release'
 
 def dagger2 = []
 dagger2 << "com.google.dagger:dagger:2.28.1"

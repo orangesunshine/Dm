@@ -193,7 +193,7 @@
       "deps": [
         "timber"
       ],"config": {
-        "isApply": false,
+        "isApply": true,
         "enX": true,
         "enKtx": true,
         "enLog": false

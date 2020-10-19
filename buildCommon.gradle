@@ -14,15 +14,15 @@ GLog.d("younger__buildCommon__build__pluginDeps: ${pluginDeps}")
 def kaptFlag = false
 if (pluginDeps && pluginDeps.size() > 0) {
     pluginDeps.forEach {
-        if(it){
+        if (it) {
             if (it.startsWithAny("plugin__")) {
                 apply plugin: it.replaceAll("plugin__", "")
-            }else if(!kaptFlag && it.startsWithAny("kapt__")){
+            } else if (!kaptFlag && it.startsWithAny("kapt__")) {
                 kaptFlag = true
             }
         }
     }
-    if(kaptFlag){
+    if (kaptFlag) {
         apply plugin: "kotlin-kapt"
     }
 }
@@ -33,20 +33,6 @@ android {
     defaultConfig {
         minSdkVersion versions.minSdkVersion
         consumerProguardFiles 'proguard-rules.pro'
-    }
-
-    buildTypes {
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            applicationIdSuffix ".debug"
-        }
-        release {
-            shrinkResources true
-            minifyEnabled true
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 
     packagingOptions {
@@ -78,6 +64,14 @@ android {
 
     if (enDatabinding) {
         buildFeatures.dataBinding = true
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
 }
 

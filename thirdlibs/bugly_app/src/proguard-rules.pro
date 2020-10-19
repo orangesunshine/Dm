@@ -59,3 +59,9 @@
 -keepclassmembers class * extends android.webkit.WebViewClient {
     public void *(android.webkit.WebView, java.lang.String);
 }
+
+#bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+#把Bugly的类放到主Dex
+-keep class com.orange.bugly.BuglyApp{*;}

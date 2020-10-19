@@ -13,6 +13,30 @@ android {
         versionName versions.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationIdSuffix ".debug"
+            buildConfigField 'String', 'BUGLY_APPID', '"81bee39138"'
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'BUGLY_APPID', '"81bee39138"'
+        }
+    }
+}
+
+android.applicationVariants.all {
+    variant ->
+        variant.outputs.all {
+            //在这里修改apk文件名，引号内的字符串都可以随便定义
+            outputFileName = "${variant.name}-v${variant.versionName}.apk"
+        }
 }
 
 def configSigning() {

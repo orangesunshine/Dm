@@ -5,9 +5,22 @@
     android:orientation="vertical">
 
     <TextView
-        android:padding="20dp"
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="MainActivity102" />
+
+    <Button
+        android:id="@+id/bt_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="check" />
+
+    <Button
+        android:id="@+id/bt_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="info" />
 
 </LinearLayout>
