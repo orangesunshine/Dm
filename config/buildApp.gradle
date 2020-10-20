@@ -1,6 +1,9 @@
 apply {
     plugin "com.android.application"
-    from "${rootDir.path}/buildCommon.gradle"
+    from "${rootDir.path}/config/buildCommon.gradle"
+}
+if(project.name.contains("tinker")){
+    apply from: "${rootDir.path}/config/tinker-support.gradle"
 }
 
 configSigning()
@@ -31,13 +34,13 @@ android {
             buildConfigField 'String', 'BUGLY_APPID', '"81bee39138"'
         }
     }
+
 }
 
 android.applicationVariants.all {
     variant ->
         variant.outputs.all {
             //在这里修改apk文件名，引号内的字符串都可以随便定义
-            GLog.l("younger___${variant.name}, ${variant.versionName}")
             //outputFileName = "${variant.name}-v${variant.versionName}.apk"
         }
 }

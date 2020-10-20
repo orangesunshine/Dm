@@ -49,12 +49,12 @@ depContainer.reps_maven = reps_maven
 //libs
 //common
 def common = []
-common << "classpath__com.android.tools.build:gradle:4.0.1"
+common << "classpath__com.android.tools.build:gradle:3.4.0"
 common << 'junit:junit:4.12'
 common << 'androidx.test.ext:junit:1.1.2'
 common << 'androidtest__androidx.test.espresso:espresso-core:3.3.0'
 common << "androidtest__androidx.test:rules:$rules_version"
-common <<= "androidtest__androidx.test:runner:1.2.0"
+common << "androidtest__androidx.test:runner:1.2.0"
 common << "androidtest__androidx.test:core:1.3.0"
 common << "androidx.appcompat:appcompat:$appcompat_version"
 // For loading and tinting drawables on older versions of the platform
@@ -241,8 +241,11 @@ depContainer.bugly = bugly
 //bugly.report = 'com.tencent.bugly:crashreport:latest.release'
 bugly.upgrade = 'com.tencent.bugly:crashreport_upgrade:latest.release'
 bugly.nativecrashreport = 'com.tencent.bugly:nativecrashreport:latest.release'
-bugly.tinker = 'com.tencent.tinker:tinker-android-lib:latest.release'
-bugly.tinker__support = 'classpath__com.tencent.bugly:tinker-support:latest.release'
+
+def tinker = [:]
+depContainer.tinker = tinker
+tinker.lib = 'com.tencent.tinker:tinker-android-lib:latest.release'
+tinker.support = 'classpath__com.tencent.bugly:tinker-support:latest.release'
 
 def dagger2 = []
 dagger2 << "com.google.dagger:dagger:2.28.1"
@@ -332,7 +335,7 @@ def addRepos(RepositoryHandler handler) {
 ext.addRepos = this.&addRepos
 
 def parseConfig() {
-    return new JsonSlurper().parse(file("${rootDir.path}/config.json"))
+    return new JsonSlurper().parse(file("${rootDir.path}/config/config.json"))
 }
 
 if (!ext.has("jsonConfig")) {
@@ -360,9 +363,10 @@ def includeModule(Settings settings) {
                             if (it.path) path += it.path
                             def modulename = ":" + path.replace(":", "_")
                             def modulepath = path.replace(":", "/")
+                            println "path: ${path},modulename: ${modulename},modulepath: ${modulepath}"
                             settings.include modulename
                             includeModules << modulename
-                            project(modulename).projectDir = file(modulepath)
+                            project(modulename).projectDir = file("../" + modulepath)
                         }
                     }
                 }

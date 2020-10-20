@@ -3,5 +3,5 @@ ext.enX = true
 ext.enDatabinding = true
 ext.enLog = true
 
-apply from: "${rootDir.path}/config.gradle"
+apply from: "${rootDir.path}/config/config.gradle"
 includeModule(settings)

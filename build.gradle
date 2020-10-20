@@ -5,16 +5,16 @@ gradle.addProjectEvaluationListener(new ProjectEvaluationListener() {
         if (project.name.contains("plugin")) return
         if (project.name.endsWith("app")) {
             project.apply {
-                from "${project.rootDir.path}/buildApp.gradle"
+                from "${project.rootDir.path}/config/buildApp.gradle"
             }
         } else if (project.name.endsWith("java")) {
 
             project.apply {
-                from "${project.rootDir.path}/buildJava.gradle"
+                from "${project.rootDir.path}/config/buildJava.gradle"
             }
         } else {
             project.apply {
-                from "${project.rootDir.path}/buildLib.gradle"
+                from "${project.rootDir.path}/config/buildLib.gradle"
             }
         }
     }
@@ -29,7 +29,7 @@ buildscript {
     ext.enX = true
     ext.enDatabinding = true
     ext.enLog = true
-    apply from: "${rootDir.path}/config.gradle"
+    apply from: "${rootDir.path}/config/config.gradle"
     repositories {
         addRepos(repositories)
     }

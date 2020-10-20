@@ -5,7 +5,7 @@ ext.enX = moduleConfig.enX ? moduleConfig.enX : false
 ext.enDatabinding = moduleConfig.enDatabinding ? moduleConfig.enDatabinding : false
 ext.enLog = moduleConfig.enLog ? moduleConfig.enLog : false
 
-apply from: "${rootDir.path}/config.gradle"
+apply from: "${rootDir.path}/config/config.gradle"
 GLog.debugSwitch = enLog
 GLog.d("younger__buildCommon__build__Config__enKtx: ${enKtx}, enX: ${enX}, enDatabinding: ${enDatabinding}, enLog: ${enLog}")
 

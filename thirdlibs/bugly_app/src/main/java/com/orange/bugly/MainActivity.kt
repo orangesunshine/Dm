@@ -5,6 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         bt_check.setOnClickListener(View.OnClickListener {
-            Beta.checkAppUpgrade()
+            Beta.checkUpgrade()
         })
 
         bt_info.setOnClickListener(View.OnClickListener {
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                 info.append("升级说明: ").append(upgradeInfo.newFeature).append("\n")
                 info.append("versionCode: ").append(upgradeInfo.versionCode).append("\n")
                 info.append("versionName: ").append(upgradeInfo.versionName).append("\n")
-                info.append("发布时间: ").append(upgradeInfo.publishTime).append("\n")
+                info.append("发布时间: ").append(SimpleDateFormat().format(Date(upgradeInfo.publishTime))).append("\n")
                 info.append("安装包Md5: ").append(upgradeInfo.apkMd5).append("\n")
                 info.append("安装包下载地址: ").append(upgradeInfo.apkUrl).append("\n")
                 info.append("安装包大小: ").append(upgradeInfo.fileSize).append("\n")

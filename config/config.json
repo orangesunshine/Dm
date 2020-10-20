@@ -184,7 +184,7 @@
   "thirdlibs": [
     {
       "config": {
-        "isApply": false,
+        "isApply": true,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -192,8 +192,11 @@
       "path": ":timber_app",
       "deps": [
         "timber"
-      ],"config": {
-        "isApply": true,
+      ]
+    },
+    {
+      "config": {
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -201,6 +204,19 @@
       "path": ":bugly_app",
       "deps": [
         "bugly"
+      ]
+    },
+    {
+      "config": {
+        "isApply": false,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":tinker_app",
+      "deps": [
+        "bugly",
+        "tinker"
       ]
     }
   ],

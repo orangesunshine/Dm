@@ -2,21 +2,18 @@ package com.orange.bugly
 
 import android.app.Application
 import android.os.Environment
-import android.os.Process
 import android.util.Log
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.beta.Beta
 import com.tencent.bugly.beta.download.DownloadListener
 import com.tencent.bugly.beta.download.DownloadTask
 import com.tencent.bugly.beta.upgrade.UpgradeStateListener
-import com.tencent.bugly.crashreport.CrashReport
 
 class BuglyApp : Application() {
     val TAG = javaClass.simpleName
     override fun onCreate() {
         super.onCreate()
         initBugly()
-        CrashReport.setUserSceneTag(this, 171664)
     }
 
     private fun initBugly() {
@@ -111,19 +108,202 @@ class BuglyApp : Application() {
          */
         Beta.canShowUpgradeActs.add(MainActivity::class.java)
 
-        val context = applicationContext
-        // 获取当前包名
-        val packageName = context.packageName
-        // 获取当前进程名
-        val processName =
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-                getProcessName()
-            } else {
-                Apps.getProcessName(Process.myPid())
+
+        /**
+         *  设置自定义升级对话框UI布局
+         *  注意：因为要保持接口统一，需要用户在指定控件按照以下方式设置tag，否则会影响您的正常使用：
+         *  标题：beta_title，如：android:tag="beta_title"
+         *  升级信息：beta_upgrade_info  如： android:tag="beta_upgrade_info"
+         *  更新属性：beta_upgrade_feature 如： android:tag="beta_upgrade_feature"
+         *  取消按钮：beta_cancel_button 如：android:tag="beta_cancel_button"
+         *  确定按钮：beta_confirm_button 如：android:tag="beta_confirm_button"
+         *  详见layout/upgrade_dialog.xml
+         */
+//        Beta.upgradeDialogLayoutId = R.layout.upgrade_dialog;
+
+        /**
+         * 设置自定义tip弹窗UI布局
+         * 注意：因为要保持接口统一，需要用户在指定控件按照以下方式设置tag，否则会影响您的正常使用：
+         *  标题：beta_title，如：android:tag="beta_title"
+         *  提示信息：beta_tip_message 如： android:tag="beta_tip_message"
+         *  取消按钮：beta_cancel_button 如：android:tag="beta_cancel_button"
+         *  确定按钮：beta_confirm_button 如：android:tag="beta_confirm_button"
+         *  详见layout/tips_dialog.xml
+         */
+//        Beta.tipsDialogLayoutId = R.layout.tips_dialog;
+
+        /**
+         *  如果想监听升级对话框的生命周期事件，可以通过设置OnUILifecycleListener接口
+         *  回调参数解释：
+         *  context - 当前弹窗上下文对象
+         *  view - 升级对话框的根布局视图，可通过这个对象查找指定view控件
+         *  upgradeInfo - 升级信息
+         */
+        /*  Beta.upgradeDialogLifecycleListener = new UILifecycleListener<UpgradeInfo>() {
+            @Override
+            public void onCreate(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onCreate");
+                // 注：可通过这个回调方式获取布局的控件，如果设置了id，可通过findViewById方式获取，如果设置了tag，可以通过findViewWithTag，具体参考下面例子:
+
+                // 通过id方式获取控件，并更改imageview图片
+                ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
+                imageView.setImageResource(R.mipmap.ic_launcher);
+
+                // 通过tag方式获取控件，并更改布局内容
+                TextView textView = (TextView) view.findViewWithTag("textview");
+                textView.setText("my custom text");
+
+                // 更多的操作：比如设置控件的点击事件
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), OtherActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
             }
-        // 设置是否为上报进程
-        val strategy = CrashReport.UserStrategy(context)
-        strategy.setUploadProcess(processName == null || processName == packageName)
+
+            @Override
+            public void onStart(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onStart");
+            }
+
+            @Override
+            public void onResume(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onResume");
+            }
+
+            @Override
+            public void onPause(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onPause");
+            }
+
+            @Override
+            public void onStop(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onStop");
+            }
+
+            @Override
+            public void onDestroy(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onDestory");
+            }
+        };*/
+
+        /**
+         * 自定义Activity参考，通过回调接口来跳转到你自定义的Actiivty中。
+         */
+        /* Beta.upgradeListener = new UpgradeListener() {
+
+            @Override
+            public void onUpgrade(int ret, UpgradeInfo strategy, boolean isManual, boolean isSilence) {
+                if (strategy != null) {
+                    Intent i = new Intent();
+                    i.setClass(getApplicationContext(), UpgradeActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "没有更新", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };*/
+
+        //监听安装包下载状态
+        /**
+         * 设置自定义升级对话框UI布局
+         * 注意：因为要保持接口统一，需要用户在指定控件按照以下方式设置tag，否则会影响您的正常使用：
+         * 标题：beta_title，如：android:tag="beta_title"
+         * 升级信息：beta_upgrade_info  如： android:tag="beta_upgrade_info"
+         * 更新属性：beta_upgrade_feature 如： android:tag="beta_upgrade_feature"
+         * 取消按钮：beta_cancel_button 如：android:tag="beta_cancel_button"
+         * 确定按钮：beta_confirm_button 如：android:tag="beta_confirm_button"
+         * 详见layout/upgrade_dialog.xml
+         */
+//        Beta.upgradeDialogLayoutId = R.layout.upgrade_dialog;
+        /**
+         * 设置自定义tip弹窗UI布局
+         * 注意：因为要保持接口统一，需要用户在指定控件按照以下方式设置tag，否则会影响您的正常使用：
+         * 标题：beta_title，如：android:tag="beta_title"
+         * 提示信息：beta_tip_message 如： android:tag="beta_tip_message"
+         * 取消按钮：beta_cancel_button 如：android:tag="beta_cancel_button"
+         * 确定按钮：beta_confirm_button 如：android:tag="beta_confirm_button"
+         * 详见layout/tips_dialog.xml
+         */
+//        Beta.tipsDialogLayoutId = R.layout.tips_dialog;
+        /**
+         * 如果想监听升级对话框的生命周期事件，可以通过设置OnUILifecycleListener接口
+         * 回调参数解释：
+         * context - 当前弹窗上下文对象
+         * view - 升级对话框的根布局视图，可通过这个对象查找指定view控件
+         * upgradeInfo - 升级信息
+         */
+        /*  Beta.upgradeDialogLifecycleListener = new UILifecycleListener<UpgradeInfo>() {
+            @Override
+            public void onCreate(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onCreate");
+                // 注：可通过这个回调方式获取布局的控件，如果设置了id，可通过findViewById方式获取，如果设置了tag，可以通过findViewWithTag，具体参考下面例子:
+
+                // 通过id方式获取控件，并更改imageview图片
+                ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
+                imageView.setImageResource(R.mipmap.ic_launcher);
+
+                // 通过tag方式获取控件，并更改布局内容
+                TextView textView = (TextView) view.findViewWithTag("textview");
+                textView.setText("my custom text");
+
+                // 更多的操作：比如设置控件的点击事件
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(), OtherActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onStart(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onStart");
+            }
+
+            @Override
+            public void onResume(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onResume");
+            }
+
+            @Override
+            public void onPause(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onPause");
+            }
+
+            @Override
+            public void onStop(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onStop");
+            }
+
+            @Override
+            public void onDestroy(Context context, View view, UpgradeInfo upgradeInfo) {
+                Log.d(TAG, "onDestory");
+            }
+        };*/
+        /**
+         * 自定义Activity参考，通过回调接口来跳转到你自定义的Actiivty中。
+         */
+        /* Beta.upgradeListener = new UpgradeListener() {
+
+            @Override
+            public void onUpgrade(int ret, UpgradeInfo strategy, boolean isManual, boolean isSilence) {
+                if (strategy != null) {
+                    Intent i = new Intent();
+                    i.setClass(getApplicationContext(), UpgradeActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), "没有更新", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };*/
 
         //监听安装包下载状态
         Beta.downloadListener = object : DownloadListener {
@@ -180,12 +360,33 @@ class BuglyApp : Application() {
             }
         }
 
-        // 初始化Bugly
-        Bugly.init(
-            context,
-            BuildConfig.BUGLY_APPID,
-            BuildConfig.DEBUG,
-            strategy
-        )
+        /**
+         * 已经接入Bugly用户改用上面的初始化方法,不影响原有的crash上报功能;
+         * init方法会自动检测更新，不需要再手动调用Beta.checkUpdate(),如需增加自动检查时机可以使用Beta.checkUpdate(false,false);
+         * 参数1： applicationContext
+         * 参数2：appId
+         * 参数3：是否开启debug
+         */
+        /**
+         * 已经接入Bugly用户改用上面的初始化方法,不影响原有的crash上报功能;
+         * init方法会自动检测更新，不需要再手动调用Beta.checkUpdate(),如需增加自动检查时机可以使用Beta.checkUpdate(false,false);
+         * 参数1： applicationContext
+         * 参数2：appId
+         * 参数3：是否开启debug
+         */
+        Bugly.init(applicationContext, "81bee39138", true)
+
+        /**
+         * 如果想自定义策略，按照如下方式设置
+         */
+
+        /***** Bugly高级设置 *****/
+        //        BuglyStrategy strategy = new BuglyStrategy();
+        /**
+         * 设置app渠道号
+         */
+        //        strategy.setAppChannel(APP_CHANNEL);
+
+        //        Bugly.init(getApplicationContext(), APP_ID, true, strategy);
     }
 }
