@@ -11,7 +11,6 @@ import javax.inject.Singleton
 class BingRemoteDataSource @Inject constructor(private val retrofit: Retrofit) {
 
     fun getBingImage(format: String, idx: Int, n: Int): Observable<ImageBean> {
-        retrofit.baseUrl()
         return retrofit.create(BingImageService::class.java).getBingImage(format, idx, n)
     }
 }

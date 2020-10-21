@@ -30,7 +30,7 @@
   "architecture": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -43,7 +43,7 @@
     },
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -270,7 +270,7 @@
   "flavors": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": false
