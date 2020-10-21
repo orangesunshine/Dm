@@ -2,7 +2,7 @@ apply {
     plugin "com.android.application"
     from "${rootDir.path}/config/buildCommon.gradle"
 }
-if(project.name.contains("tinker")){
+if (project.name.contains("tinker")) {
     apply from: "${rootDir.path}/config/tinker-support.gradle"
 }
 
@@ -15,6 +15,7 @@ android {
         versionCode versions.versionCode
         versionName versions.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        flavorDimensions "default"
     }
 
     buildTypes {
@@ -35,6 +36,31 @@ android {
         }
     }
 
+    def moduleFlavors = moduleFlavors(project.name)
+    println "younger__moduleFlavors: ${moduleFlavors}"
+    if (null != moduleFlavors && moduleFlavors.size() > 0) {
+        productFlavors {
+            moduleFlavors.each {
+                def flavorname = it.flavorname
+                def applicationIdCfg = it.applicationId
+                def manifestPlaceholdersCfg = it.manifestPlaceholders
+                def buildConfigFieldCfg = it.buildConfigField
+                "${flavorname}" {
+                    applicationId applicationIdCfg
+                    manifestPlaceholders = manifestPlaceholdersCfg
+                    if (null != buildConfigFieldCfg && buildConfigFieldCfg.size() > 0) {
+                        buildConfigFieldCfg.each {
+                            def key = it.key
+                            def value = it.value
+                            if (null != key && null != value && key.length() > 0 && value.length() > 0) {
+                                buildConfigField "String", key, "\"${value}\""
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 android.applicationVariants.all {

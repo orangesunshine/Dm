@@ -49,7 +49,7 @@ depContainer.reps_maven = reps_maven
 //libs
 //common
 def common = []
-common << "classpath__com.android.tools.build:gradle:3.4.0"
+common << "classpath__com.android.tools.build:gradle:4.0.1"
 common << 'junit:junit:4.12'
 common << 'androidx.test.ext:junit:1.1.2'
 common << 'androidtest__androidx.test.espresso:espresso-core:3.3.0'
@@ -529,3 +529,30 @@ def moduleCfg(String moduleName) {
 }
 
 ext.moduleCfg = this.&moduleCfg
+
+def moduleFlavors(String moduleName) {
+    def ret
+    if (jsonConfig && jsonConfig.size() > 0) {
+        jsonConfig.each {
+            def key = it.key
+            def modules = it.value
+            if (modules && modules.size() > 0) {
+                modules.forEach {
+                    def flavors = it.flavors
+                    if (flavors && flavors.size()>0) {
+                        //include module
+                        def path = key
+                        if (it.path) path += it.path
+                        def modulename = ":" + path.replace(":", "_")
+                        if (moduleName && moduleName.equals(modulename.substring(1))) {
+                            ret = flavors
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return ret
+}
+
+ext.moduleFlavors = this.&moduleFlavors

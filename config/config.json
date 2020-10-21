@@ -30,7 +30,7 @@
   "architecture": [
     {
       "config": {
-        "isApply": false,
+        "isApply": true,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -43,7 +43,7 @@
     },
     {
       "config": {
-        "isApply": false,
+        "isApply": true,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -55,7 +55,7 @@
     },
     {
       "config": {
-        "isApply": false,
+        "isApply": true,
         "enX": true,
         "enKtx": true,
         "enDatabinding": true,
@@ -184,7 +184,7 @@
   "thirdlibs": [
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enLog": false
@@ -265,6 +265,35 @@
         "enLog": false
       },
       "path": ":proguard_app"
+    }
+  ],
+  "flavors": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":productFlavors_app",
+      "flavors": [
+        {
+          "flavorname": "flavors1",
+          "applicationId": "com.orange.flavors1",
+          "manifestPlaceholders": {
+            "placeholders1": "placeholders1",
+            "placeholders2": "placeholders2",
+            "placeholders3": "placeholders3",
+            "placeholders4": "placeholders4"
+          },
+          "buildConfigField": {
+            "buildConfigField1": "buildConfigField1",
+            "buildConfigField2": "buildConfigField2",
+            "buildConfigField3": "buildConfigField3",
+            "buildConfigField4": "buildConfigField4"
+          }
+        }
+      ]
     }
   ]
 }
