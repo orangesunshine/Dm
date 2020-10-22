@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
@@ -13,5 +14,5 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 class DogEntryPointModule {
 
     @Provides
-    fun provideDog(@ApplicationContext context: Context):Dog = Dog(context)
+    fun provideDog(@ActivityContext context: Context):Dog = Dog(context)
 }

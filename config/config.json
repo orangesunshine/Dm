@@ -55,7 +55,7 @@
     },
     {
       "config": {
-        "isApply": true,
+        "isApply": false,
         "enX": true,
         "enKtx": true,
         "enDatabinding": true,
@@ -293,6 +293,32 @@
             "buildConfigField4": "buildConfigField4"
           }
         }
+      ]
+    }
+  ],
+  "rxjava": [
+    {
+      "config": {
+        "isApply": true,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":rxjava2_app",
+      "deps": [
+        "test__rxjava2"
+      ]
+    },
+    {
+      "config": {
+        "isApply": false,
+        "enX": true,
+        "enKtx": true,
+        "enLog": false
+      },
+      "path": ":rxjava3_app",
+      "deps": [
+        "rxjava3"
       ]
     }
   ]

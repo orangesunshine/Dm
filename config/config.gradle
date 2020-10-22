@@ -32,6 +32,8 @@ def robolectric_version = "4.4"
 def awaitility_version = "4.0.3"
 def rules_version = "1.2.0"
 def androidxtruth_version = "1.0.1"
+def rxjava2_version = "2.2.20"
+def rxjava3_version = "3.0.7"
 
 def powermock_version = "1.7.1"
 
@@ -232,8 +234,6 @@ depContainer.retrofit = retrofit
 retrofit << "com.squareup.retrofit2:retrofit:2.5.0"
 retrofit << "com.squareup.retrofit2:adapter-rxjava2:2.5.0"
 retrofit << 'com.squareup.retrofit2:converter-gson:2.5.0'
-depContainer.rxjava2 = 'io.reactivex.rxjava2:rxjava:2.1.12'
-depContainer.rxandroid = 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
 //bugly
 def bugly = [:]
@@ -280,6 +280,16 @@ powermock << "test__org.powermock:powermock-api-mockito:$powermock_version"
 powermock << "test__org.powermock:powermock-classloading-xstream:$powermock_version"
 powermock << "test__org.assertj:assertj-core:3.17.2"
 powermock << "test__org.robolectric:robolectric:$robolectric_version"
+
+def rxjava2 = []
+depContainer.rxjava2 = rxjava2
+rxjava2 << "io.reactivex.rxjava2:rxjava:$rxjava2_version"
+rxjava2 << "io.reactivex.rxjava2:rxandroid:2.1.1"
+
+def rxjava3 = []
+depContainer.rxjava3 = rxjava3
+rxjava3 << "io.reactivex.rxjava3:rxjava:$rxjava3_version"
+rxjava3 << "io.reactivex.rxjava2:rxandroid:$rxjava3_version"
 
 //方法
 def handleDep(DependencyHandler handler, CharSequence dep) {
@@ -378,13 +388,13 @@ def includeModule(Settings settings) {
 
 ext.includeModule = this.&includeModule
 
-def cycleFilter(Object deps, String filter) {
+def cycleFilter(Object deps, String filter, String prefix) {
     def filterDeps = []
     if (deps) {
         if (deps instanceof Map && deps.size() > 0) {
             deps.each {
                 if (it.value) {
-                    def mapDeps = cycleFilter(it.value, filter)
+                    def mapDeps = cycleFilter(it.value, filter, prefix)
                     if (mapDeps && mapDeps.size() > 0) {
                         filterDeps.addAll(mapDeps)
                     }
@@ -393,14 +403,14 @@ def cycleFilter(Object deps, String filter) {
         } else if (deps instanceof List && deps.size() > 0) {
             deps.forEach {
                 if (it) {
-                    def listDeps = cycleFilter(it, filter)
+                    def listDeps = cycleFilter(it, filter, prefix)
                     if (listDeps && listDeps.size() > 0) {
                         filterDeps.addAll(listDeps)
                     }
                 }
             }
         } else if (deps.startsWithAny(filter)) {
-            filterDeps.add(deps)
+            filterDeps.add(prefix + deps)
         }
     }
     return filterDeps
@@ -436,13 +446,35 @@ def cfgNdClasspath() {
             }
         }
     }
-    if (depKeys && depKeys.size() > 0) {
-        depKeys.forEach {
-            if (it) {
-                def deps = depContainer.get(it)
-                def filters = cycleFilter(deps, "classpath__")
-                if (filters && filters.size() > 0) {
-                    classpathDeps.addAll(filters)
+    if (depKeys) {
+        def iterator = depKeys.listIterator()
+        while (iterator.hasNext()) {
+            def next = iterator.next()
+            if (null != next) {
+                if (next.startsWithAny("test__")) {
+                    iterator.set(next.replaceAll("test__", ""))
+                } else if (next.startsWithAny("androidtest__")) {
+                    iterator.set(next.replaceAll("androidtest__", ""))
+                } else if (next.startsWithAny("api__")) {
+                    iterator.set(next.replaceAll("api__", ""))
+                } else if (next.startsWithAny("kapt__")) {
+                    iterator.set(next.replaceAll("kapt__", ""))
+                } else if (next.startsWithAny("apt__")) {
+                    iterator.set(next.replaceAll("apt__", ""))
+                }
+            }
+        }
+        println "younger__unique__before: ${depKeys}"
+        depKeys = depKeys.unique()
+        println "younger__unique__after: ${depKeys}"
+        if (depKeys.size() > 0) {
+            depKeys.forEach {
+                if (it) {
+                    def deps = depContainer.get(it)
+                    def filters = cycleFilter(deps, "classpath__", "")
+                    if (filters && filters.size() > 0) {
+                        classpathDeps.addAll(filters)
+                    }
                 }
             }
         }
@@ -490,8 +522,25 @@ def modulePlugin() {
     if (depKeys && depKeys.size() > 0) {
         depKeys.forEach {
             if (it) {
+                def prefix = ""
+                if (it.startsWithAny("test__")) {
+                    prefix = "test__"
+                    it = it.replaceAll("test__", "")
+                } else if (it.startsWithAny("androidtest__")) {
+                    prefix = "androidtest__"
+                    it = it.replaceAll("androidtest__", "")
+                } else if (it.startsWithAny("api__")) {
+                    prefix = "api__"
+                    it = it.replaceAll("api__", "")
+                } else if (it.startsWithAny("kapt__")) {
+                    prefix = "kapt__"
+                    it = it.replaceAll("kapt__", "")
+                } else if (it.startsWithAny("apt__")) {
+                    prefix = "apt__"
+                    it = it.replaceAll("apt__", "")
+                }
                 def deps = depContainer.get(it)
-                def filters = cycleFilter(deps, "")
+                def filters = cycleFilter(deps, "", prefix)
                 if (filters && filters.size() > 0) {
                     pluginDeps.addAll(filters)
                 }
@@ -539,7 +588,7 @@ def moduleFlavors(String moduleName) {
             if (modules && modules.size() > 0) {
                 modules.forEach {
                     def flavors = it.flavors
-                    if (flavors && flavors.size()>0) {
+                    if (flavors && flavors.size() > 0) {
                         //include module
                         def path = key
                         if (it.path) path += it.path
